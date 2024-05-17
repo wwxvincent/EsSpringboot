@@ -29,6 +29,11 @@ public class SongController {
         }
     }
 
+    @PostMapping("/deleteAll")
+    public void deleteAll() {
+        songRepository.deleteAll();
+    }
+
     @GetMapping("/selectAll")
     public List<SongEntity> selectAll() {
         return songService.selectAll();
