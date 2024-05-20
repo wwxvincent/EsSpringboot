@@ -26,20 +26,20 @@ public class UserController {
         return userService.selectAll();
     }
 
-//    @GetMapping("/initData")
-//    public void initData() {
-//        List<UserEntity> list = userService.selectAll();
-//
-//        for (UserEntity userEntity : list) {
-//            userRepository.save(userEntity);
-//        }
-//    }
-//
-//    @PostMapping("/deleteAll")
-//    public void deleteAll() {
-//        songRepository.deleteAll();
-//    }
-//
+    @GetMapping("/initData")
+    public void initData() {
+        List<UserEntity> list = userService.selectAll();
+
+        for (UserEntity userEntity : list) {
+            userRepository.save(userEntity);
+        }
+    }
+
+    @PostMapping("/deleteAll")
+    public void deleteAll() {
+        userRepository.deleteAll();
+    }
+
 
 
 //    @PostMapping("/searchName")
