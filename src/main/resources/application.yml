@@ -15,6 +15,13 @@ server:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
 
+
 logging:
   level:
-    com.example.elastic: debug
+    com.baomidou: debug
+    com.baomidou.mybatisplus: debug
+    com.baomidou.dynamic: debug
+    com.vincent.esspringboot.*: debug
+    org.mybatis: debug
+    org.springframework.jdbc.core: debug
+    org.elasticsearch.client.RestHighLevelClient: DEBUG

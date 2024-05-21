@@ -66,6 +66,14 @@
         <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
 
+        <!-- 加了就报错，无法启动程序加了就报错，无法启动程序 -->
+<!--        <dependency>  -->
+<!--            <groupId>org.elasticsearch.client</groupId>-->
+<!--            <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+<!--            <version>7.17.0</version>-->
+<!--        </dependency>-->
+
+
         <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client -->
 <!--        <dependency>-->
 <!--            <groupId>org.elasticsearch.client</groupId>-->

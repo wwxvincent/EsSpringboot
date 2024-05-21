@@ -64,17 +64,30 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
         return searchResponse;
     }
 
+    // 基本查询：查询匹配name字段的数据
+    // 如果singer字段也匹配，会将singer权重乘2，如果无匹配，不影响基本查询结果
     @Override
     public SearchResponse searchSongs2(String name, String singer) throws IOException {
+        // 基本查询
         MatchQueryBuilder nameQuery = QueryBuilders.matchQuery("name", name);
+        // 设置singer字段，作为filter条件
         MatchQueryBuilder singerFilter = QueryBuilders.matchQuery("singer", singer);
 
         // Function Score查询
-        FunctionScoreQueryBuilder.FilterFunctionBuilder filterFunctionBuilder = new FunctionScoreQueryBuilder.FilterFunctionBuilder(singerFilter, ScoreFunctionBuilders.weightFactorFunction(2f));
-
-        FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(nameQuery, filterFunctionBuilder.getScoreFunction())
+        //这里创建了一个函数评分过滤器，它将"singerFilter"作为过滤条件，并定义了一个评分函数，
+        // 即ScoreFunctionBuilders.weightFactorFunction(2f)。这个函数表示如果"singerFilter"匹配成功，
+        // 就将文档的评分乘以2。
+        FunctionScoreQueryBuilder.FilterFunctionBuilder[] filterFunctionBuilders = new FunctionScoreQueryBuilder.FilterFunctionBuilder[]{
+                new FunctionScoreQueryBuilder.FilterFunctionBuilder(singerFilter, ScoreFunctionBuilders.weightFactorFunction(2f))
+        };
+        //创建一个函数评分查询对象 functionScoreQuery。
+        // 在创建时，它使用了之前定义的过滤器数组 filterFunctionBuilders 和主查询条件 nameQuery。
+        //其中"nameQuery"是我们用来匹配"name"字段的查询条件，
+        // 而"filterFunctionBuilders"则是我们定义的过滤器数组，用来根据"singer"字段的匹配情况进行评分调整。
+        //.scoreMode(FunctionScoreQuery.ScoreMode.MULTIPLY):
+        // 这一行设置了函数评分查询的评分模式为乘法模式，即将各个函数评分相乘得到最终评分。
+        FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders.functionScoreQuery(nameQuery, filterFunctionBuilders)
                 .scoreMode(FunctionScoreQuery.ScoreMode.MULTIPLY);
-
 
         // 构建SearchSourceBuilder
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
