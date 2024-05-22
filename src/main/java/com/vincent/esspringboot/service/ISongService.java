@@ -15,4 +15,6 @@ public interface ISongService extends IService<SongEntity> {
 
     SearchResponse searchSongs2(String name, String singer) throws IOException;
 
+    SearchResponse searchSongs3(String name, String singer) throws IOException;
+
 }

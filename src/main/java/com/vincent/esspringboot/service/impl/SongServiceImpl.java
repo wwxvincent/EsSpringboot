@@ -11,9 +11,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -104,8 +102,31 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, SongEntity> impleme
 
     }
 
+    @Override
+    public SearchResponse searchSongs3(String name, String singer) throws IOException {
+        // 创建 Match 查询
+        MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery("name", name);
 
+        // 创建 Term 查询
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("singer", singer);
 
+        // 创建 Boosting 查询
+        BoostingQueryBuilder boostingQuery = QueryBuilders.boostingQuery(matchQueryBuilder, termQueryBuilder)
+                .negativeBoost(0.5f);
+
+        // 创建 SearchSourceBuilder
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(boostingQuery);
+
+        // 创建 SearchRequest
+        SearchRequest searchRequest = new SearchRequest("songs"); // 替换为你的索引名称
+        searchRequest.source(searchSourceBuilder);
+
+        // 执行查询
+        SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        return searchResponse;
+    }
 
 
 }
