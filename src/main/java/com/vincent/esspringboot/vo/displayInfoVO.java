@@ -28,4 +28,6 @@ public class displayInfoVO {
     private String singer;
 
     private String note;
+
+    private String memo;
 }

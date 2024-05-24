@@ -6,10 +6,10 @@
 
 
     <select id="getAllInfoByUser" resultType="com.vincent.esspringboot.vo.displayInfoVO">
-        select s1.id, u.name, s1.user_id, s1.played, s1.favor, s1.name as song_name, s1.singer, s1.note
+        select s1.id, u.name, s1.user_id, s1.played, s1.favor, s1.name as song_name, s1.singer, s1.note, s1.memo
         From
             (select
-                 p.id, p.user_id, p.played, p.favor, s.name, s.singer, s.note
+                 p.id, p.user_id, p.played, p.favor, s.name, s.singer, s.note, p.memo
              from player p
                       INNER JOIN song s on p.song_id = s.id
              where p.user_id = #{id} ) s1

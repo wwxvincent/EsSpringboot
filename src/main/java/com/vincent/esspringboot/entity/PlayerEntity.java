@@ -31,4 +31,7 @@ public class PlayerEntity {
 
     @Field(type= FieldType.Long , name = "favor")
     private Integer favor;
+
+    @Field(type= FieldType.Text, analyzer = "ik_max_word")
+    private String memo;
 }
