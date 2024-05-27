@@ -25,3 +25,6 @@ logging:
     org.mybatis: debug
     org.springframework.jdbc.core: debug
     org.elasticsearch.client.RestHighLevelClient: DEBUG
+
+download:
+  synonymsPath: 'synonyms/synonyms.txt'
